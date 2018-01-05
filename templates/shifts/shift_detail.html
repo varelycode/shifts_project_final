@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+  {{ groupshift.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">GROUPS</a></li>
+  <li class="breadcrumb-item active">{{ shift.groupshift.name }}</li>
+{% endblock %}
+
+
+{% block content %}
+  <div class="mb-4" >
+    <a href="{% url 'boards:create_run' shift.groupshift.pk shift.pk %}" class="btn btn-primary">New Run</a>
+  </div>
+
+  <table class="table table-hover mb-4">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Shift</th>
+        <th>Created By</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Last Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for run in shift.runs.all %}
+        {# {% url 'boards:runs_list' groupshift.pk shift.pk as shift_url %} #}
+        <tr>
+          <td>
+            <p class="mb-0">
+              <a href="#">{{ run.runs_text }}</a>
+            </p>
+          </td>
+          <td class="align-middle">{{ run.starter.username }}</td>
+          <td class="align-middle">{{ run.runs_start|date:"M j f a" }}</td>
+          <td class="align-middle">{{ run.runs_end|date:"M j f a" }}</td>
+          <td class="align-middle">{{ run.updated_at|naturaltime }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'includes/pagination.html' %}
+
+{% endblock %}

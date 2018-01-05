@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Post a reply{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+  <script>
+      $( function() {
+      $( "#id_runs_start_0" ).datepicker();
+      $( "#id_runs_end_0" ).datepicker();
+      } );
+    </script>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+
+{% block content %}
+<H2>Create New Run for {{ shift.shifts_text }}</H2>
+<h4>Shift Start: {{ shift.start_datetime|date:"M j f a" }}</h4>
+<h4>  Shift End: {{ shift.end_datetime|date:"M j f a" }}</h4>
+
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Create Run</button>
+  </form>
+
+
+{% endblock %}

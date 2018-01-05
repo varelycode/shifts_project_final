@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Post a reply{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+  <script>
+      $( function() {
+      $( "#id_start_datetime_0" ).datepicker();
+      $( "#id_end_datetime_0" ).datepicker();
+      } );
+    </script>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+
+{% block content %}
+<H2>Create New Shift for {{ groupshift.name }}</H2>
+
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Create Shift</button>
+  </form>
+
+
+{% endblock %}

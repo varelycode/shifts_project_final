@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+  {{ groupshift.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">All Groups</a></li>
+  <li class="breadcrumb-item active">{{ groupshift.name }}</li>
+{% endblock %}
+
+
+{% block content %}
+  <div class="mb-4" >
+    <a href="{% url 'boards:create_shift' groupshift.pk %}" class="btn btn-primary">New Shift</a>
+  </div>
+
+  <table class="table table-hover mb-4">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Shift</th>
+        <th>Created By</th>
+        <th>Run Count</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Last Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for shift in groupshift.shifts.all %}
+        {% url 'boards:shift_detail' groupshift.pk shift.pk as shift_url %}
+        <tr>
+          <td>
+            <p class="mb-0">
+              <a href="{{ shift_url }}">{{ shift.shifts_text }}</a>
+            </p>
+          </td>
+          <td class="align-middle">{{ shift.starter.username }}</td>
+          <td class="align-moddle">{{ shift.get_runs_count }}
+          <td class="align-middle">{{ shift.start_datetime|date:"M j f a" }}</td>
+          <td class="align-middle">{{ shift.end_datetime|date:"M j f a" }}</td>
+          <td class="align-middle">{{ shift.last_updated|naturaltime }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'includes/pagination.html' %}
+
+{% endblock %}
